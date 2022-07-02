@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components';
+import { motion } from "framer-motion"
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header>
+        <MenuButton>≡</MenuButton>
+        <HeaderTitle>タイトル</HeaderTitle>
+      </Header>
     </div>
   );
 }
 
 export default App;
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+
+const HeaderTitle = styled.div`
+  margin-left: 8px;
+`
+
+const MenuButton = styled.div`
+  cursor: pointer;
+`
