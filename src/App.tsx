@@ -68,7 +68,7 @@ const HeaderTitle = styled.div`
 
 const Container = styled.div``
 
-const MenuButton = styled(motion.div)`
+const MenuButton = styled.div`
   position: fixed;
   padding: 8px;
   top: 0;
