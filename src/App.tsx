@@ -19,6 +19,7 @@ const App = () => {
           show: { opacity: 0.65 },
           hide: { opacity: 0 },
         }}
+        initial='hide'
       />
     </div>
   );
