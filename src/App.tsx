@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { motion, useSpring } from "framer-motion"
+import { motion } from "framer-motion"
 import logo from './logo.svg';
 
 const App = () => {
@@ -31,24 +31,23 @@ interface Props {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Sidebar = ({width, isOpen, setOpen}: Props) => {
-  const x = useSpring(0, { stiffness: 400, damping: 40 });
-
+export const Sidebar = ({ width, isOpen, setOpen }: Props) => {
   return (
     <Container>
       <MenuButton
-        onClick={() => {
-          setOpen(!isOpen)
-          console.log({isOpen})
-          isOpen ? x.set(-width) : x.set(0);
-        }}
-       >≡</MenuButton>
+        onClick={() => setOpen(!isOpen)}
+      >≡</MenuButton>
       <SidebarContainer
         width={width}
         initial={{ x: -width }}
-        style={{ x }}
+        animate={isOpen ? 'show' : 'hide'}
+        variants={{
+          show: { x: 0 },
+          hide: { x: -width },
+        }}
+        transition={{ type: 'spring', damping: 40, stiffness: 400 }}
       >
-        <img src={logo} className="App-logo" alt="logo" /> 
+        <img src={logo} className="App-logo" alt="logo" />
       </SidebarContainer>
     </Container>
   )
@@ -77,10 +76,10 @@ const MenuButton = styled.div`
   z-index: 3;
 `
 
-const SidebarContainer = styled(motion.div)<{width: number}>`
+const SidebarContainer = styled(motion.div) <{ width: number }>`
   position: fixed;
   top: 0;
-  width: ${({width}) => width}px;
+  width: ${({ width }) => width}px;
   height: 100%;
   background-color: white;
   z-index: 2;
