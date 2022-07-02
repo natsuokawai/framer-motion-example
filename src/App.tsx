@@ -4,25 +4,37 @@ import { motion, useSpring } from "framer-motion"
 import logo from './logo.svg';
 
 const App = () => {
-  
+  const [isOpen, setOpen] = useState(false)
+
   return (
     <div className="App">
       <Header>
-        <Sidebar />
-        <HeaderTitle>タイトル</HeaderTitle>
+        <Sidebar isOpen={isOpen} setOpen={setOpen} />
+        <HeaderTitle>てすと</HeaderTitle>
       </Header>
+      <Overlay
+        animate={isOpen ? 'show' : 'hide'}
+        variants={{
+          show: { opacity: 0.65 },
+          hide: { opacity: 0 },
+        }}
+      />
     </div>
   );
 }
 
-const Sidebar = () => {
-  const [isOpen, setOpen] = useState(false)
+interface Props {
+  isOpen: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const Sidebar = ({isOpen, setOpen}: Props) => {
   const x = useSpring(0, { stiffness: 400, damping: 40 });
 
   return (
     <Container>
       <MenuButton
-        onTap={() => {
+        onClick={() => {
           setOpen(!isOpen)
           console.log({isOpen})
           isOpen ? x.set(-300) : x.set(0);
@@ -59,7 +71,7 @@ const MenuButton = styled(motion.div)`
   padding: 8px;
   top: 0;
   cursor: pointer;
-  z-index: 1;
+  z-index: 3;
 `
 
 const SidebarContainer = styled(motion.div)`
@@ -68,4 +80,15 @@ const SidebarContainer = styled(motion.div)`
   width: 300px;
   height: 100%;
   background-color: white;
+  z-index: 2;
+`
+
+const Overlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  opacity: 0.65;
+  z-index: 1;
 `
