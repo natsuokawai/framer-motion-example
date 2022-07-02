@@ -4,12 +4,13 @@ import { motion, useSpring } from "framer-motion"
 import logo from './logo.svg';
 
 const App = () => {
-  const [isOpen, setOpen] = useState(false)
+  const [isOpen, setOpen] = useState(false);
+  const width = document.body.clientWidth * 0.75;
 
   return (
     <div className="App">
       <Header>
-        <Sidebar isOpen={isOpen} setOpen={setOpen} />
+        <Sidebar width={width} isOpen={isOpen} setOpen={setOpen} />
         <HeaderTitle>てすと</HeaderTitle>
       </Header>
       <Overlay
@@ -24,11 +25,12 @@ const App = () => {
 }
 
 interface Props {
+  width: number;
   isOpen: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Sidebar = ({isOpen, setOpen}: Props) => {
+export const Sidebar = ({width, isOpen, setOpen}: Props) => {
   const x = useSpring(0, { stiffness: 400, damping: 40 });
 
   return (
@@ -37,12 +39,12 @@ export const Sidebar = ({isOpen, setOpen}: Props) => {
         onClick={() => {
           setOpen(!isOpen)
           console.log({isOpen})
-          isOpen ? x.set(-300) : x.set(0);
+          isOpen ? x.set(-width) : x.set(0);
         }}
        >≡</MenuButton>
       <SidebarContainer
-        className='hogehoge'
-        initial={{ x: -300 }}
+        width={width}
+        initial={{ x: -width }}
         style={{ x }}
       >
         <img src={logo} className="App-logo" alt="logo" /> 
@@ -74,10 +76,10 @@ const MenuButton = styled(motion.div)`
   z-index: 3;
 `
 
-const SidebarContainer = styled(motion.div)`
+const SidebarContainer = styled(motion.div)<{width: number}>`
   position: fixed;
   top: 0;
-  width: 300px;
+  width: ${({width}) => width}px;
   height: 100%;
   background-color: white;
   z-index: 2;
